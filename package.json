@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "0.27.0",
