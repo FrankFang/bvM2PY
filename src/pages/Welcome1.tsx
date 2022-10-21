@@ -1,7 +1,11 @@
-import * as React from 'react'
-import { NavLink } from 'react-router-dom'
+import c from 'classnames'
+import s from './Welcome1.module.scss'
 export const Welcome1: React.FC = () => {
   return (
-    <div style={{ border: '1px solid red' }}> 1 <NavLink to="/welcome/2">下一页</NavLink> </div>
+    <div className={c(s.wrapper, s.blue)}>
+      <div className='frank'>
+      山竹记账
+      </div>
+    </div>
   )
 }
