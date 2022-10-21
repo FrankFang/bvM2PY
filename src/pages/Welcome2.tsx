@@ -1,7 +1,23 @@
-import * as React from 'react'
-import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+const Box = styled.div`
+  border: 1px solid red;
+  height: 100px;
+  &:hover{
+    background: red;
+  }
+`
+const BlueBox = styled(Box)`
+  border-color: blue;
+`
 export const Welcome2: React.FC = () => {
   return (
-    <div style={{ border: '1px solid red' }}> 2 <NavLink to="/welcome/3">下一页</NavLink> </div>
+    <div>
+      <Box>
+        hi
+      </Box>
+      <BlueBox>
+        hi
+      </BlueBox>
+    </div>
   )
 }
