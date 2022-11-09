@@ -1,17 +1,26 @@
 import useSWR from 'swr'
+import { Navigate } from 'react-router-dom'
 import p from '../assets/images/pig.svg'
 import add from '../assets/icons/add.svg'
 import { ajax } from '../lib/ajax'
 export const Home: React.FC = () => {
-  const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
-    return ajax.get(path)
-  })
-  const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, (path) => {
-    return ajax.get(path)
-  })
-  console.log(meData, meError, itemsData, itemsError)
-  // npm run dev 开发 /api/v1/me
-  // npm run build 上线 http://121.196.236.94:8080/api/v1
+  const { data: meData, error: meError } = useSWR('/api/v1/me', async path =>
+    (await ajax.get<Resource<User>>(path)).data.resource
+  )
+  const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, async path =>
+    (await ajax.get<Resources<Item>>(path)).data
+  )
+
+  const isLoadingMe = !meData && !meError
+  const isLoadingItems = meData && !itemsData && !itemsError
+
+  if (isLoadingMe || isLoadingItems) {
+    return <div>加载中……</div>
+  }
+
+  if (itemsData?.resources[0]) {
+    return <Navigate to="/items" />
+  }
 
   return <div>
     <div flex justify-center items-center>
@@ -26,5 +35,5 @@ export const Home: React.FC = () => {
       text-6xl fixed bottom-16px right-16px>
       <img src={add} max-w="100%" max-h="100%" />
     </button>
-  </div>
+  </div >
 }
