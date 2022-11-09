@@ -1,15 +1,17 @@
-import axios from 'axios'
 import useSWR from 'swr'
 import p from '../assets/images/pig.svg'
 import add from '../assets/icons/add.svg'
+import { ajax } from '../lib/ajax'
 export const Home: React.FC = () => {
   const { data: meData, error: meError } = useSWR('/api/v1/me', (path) => {
-    return axios.get(path)
+    return ajax.get(path)
   })
   const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, (path) => {
-    return axios.get(path)
+    return ajax.get(path)
   })
   console.log(meData, meError, itemsData, itemsError)
+  // npm run dev 开发 /api/v1/me
+  // npm run build 上线 http://121.196.236.94:8080/api/v1
 
   return <div>
     <div flex justify-center items-center>
