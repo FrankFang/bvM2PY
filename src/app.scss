@@ -1,0 +1,12 @@
+:root {
+  --un-shadow-color: red;
+}
+*{margin:0; padding: 0; box-sizing: border-box;}
+*::after, *::before{ box-sizing: border-box; }
+a{color: inherit; text-decoration: none;}
+h1,h2,h3,h4,h5,h6{font-weight: normal;}
+
+button{font: inherit;}
+html{
+  font-size: 14px;
+}
