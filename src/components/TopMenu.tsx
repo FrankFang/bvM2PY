@@ -9,7 +9,7 @@ interface Props {
 }
 export const TopMenu: React.FC<Props> = (props) => {
   const { onClickMask, visible } = props
-  const [maskVisible, setMaskVisible] = useState(false)
+  const [maskVisible, setMaskVisible] = useState(visible)
   const maskStyles = useSpring({
     opacity: visible ? 1 : 0,
     onStart: ({ value }) => {
