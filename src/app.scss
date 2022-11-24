@@ -1,5 +1,5 @@
 :root {
-  --un-shadow-color: red;
+  --un-shadow-color: rgba(0,0,0,0.25);
   --z-default: 128;
   --z-menu: 256;
   --z-dialog: 512;
@@ -10,11 +10,15 @@ a{color: inherit; text-decoration: none;}
 h1,h2,h3,h4,h5,h6{font-weight: normal;}
 ol,ul {list-style: none;}
 
-button{font: inherit;}
+button, input{font: inherit;}
 html{
   font-size: 16px;
   font-family: -apple-system, Helvetica,  Arial, "Liberation Sans",
     "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC",
     "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei",
     "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+}
+
+:focus {
+  outline: none;
 }
