@@ -1,4 +1,3 @@
-type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[]
 interface Data {
   [k: string]: JSONValue
 }
