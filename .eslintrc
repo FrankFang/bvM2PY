@@ -3,6 +3,7 @@
   "rules": {
     "curly": "off",
     "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
