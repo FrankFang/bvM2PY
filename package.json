@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "dev": "vite",
-    "build": "tsc && vite build --base=/react-mangosteen-1-preview/",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
