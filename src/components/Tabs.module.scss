@@ -1,0 +1,13 @@
+.selected{
+  position: relative;
+  &::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: white;
+    opacity: 0.5;
+  }
+}

@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react'
-import { useMenuStore } from '../stores/useMenuStore'
-import { Icon } from './Icon'
 
 interface Props {
   title?: string
