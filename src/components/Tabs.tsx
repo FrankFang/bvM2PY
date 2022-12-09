@@ -10,7 +10,7 @@ type Props<T> = {
   }[]
   value: T
   onChange: (key: T) => void
-  className: string
+  className?: string
   classPrefix?: string
 }
 
