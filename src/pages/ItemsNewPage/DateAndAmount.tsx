@@ -24,11 +24,25 @@ export const DateAndAmount: React.FC<Props> = (props) => {
       }
     }}
     onTouchEnd={() => {
+      const yushu = translateY % 36
+      if (yushu > 0) {
+        if (yushu < 18) {
+          setTranslateY(translateY - yushu)
+        } else {
+          setTranslateY(translateY + (36 - yushu))
+        }
+      } else {
+        if (yushu < -18) {
+          setTranslateY(translateY - (36 + yushu))
+        } else {
+          setTranslateY(translateY - yushu)
+        }
+      }
       setIsTouching(false)
     }}
   >
     <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full />
-    <div b-1 b-red h-36px absolute top="[calc(50%-18px)]" w-full>
+    <div absolute top="[calc(50%-18px-108px)]" w-full>
       <ol style={{ transform: `translateY(${translateY}px)` }}
         children-h-36px text-center children-leading-36px>
         <li>2000</li>
@@ -42,17 +56,18 @@ export const DateAndAmount: React.FC<Props> = (props) => {
         <li>2008</li>
         <li>2009</li>
         <li>2010</li>
-        <li>2000</li>
-        <li>2001</li>
-        <li>2002</li>
-        <li>2003</li>
-        <li>2004</li>
-        <li>2005</li>
-        <li>2006</li>
-        <li>2007</li>
-        <li>2008</li>
-        <li>2009</li>
-        <li>2010</li>
+        <li>2011</li>
+        <li>2012</li>
+        <li>2013</li>
+        <li>2014</li>
+        <li>2015</li>
+        <li>2016</li>
+        <li>2017</li>
+        <li>2018</li>
+        <li>2019</li>
+        <li>2020</li>
+        <li>2021</li>
+        <li>2022</li>
       </ol>
     </div>
   </div>)
