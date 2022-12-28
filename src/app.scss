@@ -3,6 +3,7 @@
   --z-default: 128;
   --z-menu: 256;
   --z-dialog: 512;
+  --z-popup: 1024;
 }
 *{margin:0; padding: 0; box-sizing: border-box;}
 *::after, *::before{ box-sizing: border-box; }
