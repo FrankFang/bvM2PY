@@ -1,40 +1,54 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { time } from '../lib/time'
 
-export const Datepicker: React.FC = () => {
+type Props = {
+  start?: Date
+  end?: Date
+  value?: Date
+  onChange?: (value: Date) => void
+}
+// useRef + forceUpdate
+export const Datepicker: React.FC<Props> = (props) => {
+  const { start, end, value, onChange } = props
+  const startTime = start ? time(start) : time().add(-10, 'years')
+  const endTime = end ? time(end) : time().add(10, 'year')
+  if (endTime.timestamp <= startTime.timestamp) {
+    throw new Error('结束时间必须晚于开始时间')
+  }
+  const [, update] = useState({})
+  const valueTime = useRef(value ? time(value) : time())
+  const yearList = Array.from({ length: endTime.year - startTime.year + 1 })
+    .map((_, index) => startTime.year + index)
+  const monthList = Array.from({ length: 12 }).map((_, index) => index + 1)
+  const dayList = Array.from({ length: valueTime.current.lastDayOfMonth.day }).map((_, index) => index + 1)
   return (
     <div flex>
-      <Column className="grow-1" />
-      <Column className="grow-1" />
-      <Column className="grow-1" />
+      <Column className="grow-1" items={yearList} value={valueTime.current.year}
+        onChange={year => { valueTime.current.year = year; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={monthList} value={valueTime.current.month}
+        onChange={month => { valueTime.current.month = month; update({}); onChange?.(valueTime.current.date) }} />
+      <Column className="grow-1" items={dayList} value={valueTime.current.day}
+        onChange={day => { valueTime.current.day = day; update({}); onChange?.(valueTime.current.date) }} />
     </div>
   )
 }
 
 type ColumnProps = {
   className?: string
-  start?: Date
-  end?: Date
-  value?: Date
   itemHeight?: number
+  items: number[]
+  value: number
+  onChange: (value: number) => void
 }
 export const Column: React.FC<ColumnProps> = (props) => {
-  const { start, end, value, itemHeight = 36, className } = props
-  const startTime = start ? time(start) : time().add(-10, 'years')
-  const endTime = end ? time(end) : time().add(10, 'year')
-  const valueTime = value ? time(value) : time()
-  if (endTime.timestamp <= startTime.timestamp) {
-    throw new Error('结束时间必须晚于开始时间')
-  }
-  const yearList = Array.from({ length: endTime.year - startTime.year + 1 })
-    .map((_, index) => startTime.year + index)
-  const index = yearList.indexOf(valueTime.year)
+  const { items, itemHeight = 36, className, value, onChange } = props
+  const index = items.indexOf(value)
   const [isTouching, setIsTouching] = useState(false)
   const [lastY, setLastY] = useState(-1)
   const [translateY, _setTranslateY] = useState(index * -itemHeight)
   const setTranslateY = (y: number) => {
     y = Math.min(y, 0)
-    y = Math.max(y, (yearList.length - 1) * -itemHeight)
+    y = Math.max(y, (items.length - 1) * -itemHeight)
     _setTranslateY(y)
   }
   return (
@@ -59,14 +73,15 @@ export const Column: React.FC<ColumnProps> = (props) => {
         }
         setTranslateY(y)
         setIsTouching(false)
+        onChange(items[Math.abs(y / itemHeight)])
       }}
     >
       <div border-b-1 border-t-1 b="#eee" absolute top="50%" w-full
         style={{ height: itemHeight, transform: `translateY(${-itemHeight / 2}px)` }} />
       <div absolute top="50%" w-full style={{ transform: `translateY(${-itemHeight / 2}px)` }}>
         <ol style={{ transform: `translateY(${translateY}px)` }} text-center children-flex children-items-center children-justify-center>
-          {yearList.map(year =>
-            <li key={year} style={{ height: itemHeight }}>{year}</li>
+          {items.map(item =>
+            <li key={item} style={{ height: itemHeight }}>{item}</li>
           )}
         </ol>
       </div>

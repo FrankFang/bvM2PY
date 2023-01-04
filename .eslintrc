@@ -2,6 +2,7 @@
   "extends": "@antfu",
   "rules": {
     "curly": "off",
+    "arrow-parens": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/brace-style": "off",
     "@typescript-eslint/lines-between-class-members": "off",
