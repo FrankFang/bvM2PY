@@ -17,7 +17,7 @@ export const PieChart: React.FC<Props> = (props) => {
       grid: { top: 0, left: 0, bottom: 0, right: 0 },
       series: [{
         type: 'pie',
-        radius: '50%',
+        radius: '90%',
         data: items?.map(item => ({ value: item.y, name: item.x })),
       }]
     }
