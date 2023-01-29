@@ -13,7 +13,7 @@ export const RankChart: React.FC<Props> = (props) => {
   const renderItems = () => {
     return (
       items?.map((item, index) =>
-        <div grid grid-cols="[48px_1fr_1fr]" grid-rows="[repeat(2,1fr)]"
+        <div key={item.name} grid grid-cols="[48px_1fr_1fr]" grid-rows="[repeat(2,1fr)]"
           text-12px items-center gap-y-6px gap-x-8px px-16px my-8px>
           <div row-start-1 col-start-1 row-end-3 col-end-2
             w-48px h-48px rounded-24px bg="#EFEFEF" flex justify-center items-center

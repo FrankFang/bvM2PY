@@ -28,7 +28,7 @@ export const Input: React.FC<Props> = (props) => {
         return <select value={value} onChange={e => onChange?.(e.target.value)}
           className="h-36px">
           {props.options.map(option =>
-            <option value={option.value}>{option.text}</option>)
+            <option key={option.value} value={option.value}>{option.text}</option>)
           }
         </select>
       case 'sms_code':
