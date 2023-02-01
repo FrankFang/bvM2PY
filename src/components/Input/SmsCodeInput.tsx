@@ -2,10 +2,15 @@ type Props = {
   value?: string
   placeholder?: string
   onChange?: (value: string) => void
-  onClick?: () => void
+  request?: () => Promise<unknown>
 }
 export const SmsCodeInput: React.FC<Props> = (props) => {
-  const { value, placeholder, onChange, onClick } = props
+  const { value, placeholder, onChange, request } = props
+  const onClick = async () => {
+    if (!request) { return }
+    await request()
+    // 开始倒计时
+  }
   return (
     <div flex gap-x-16px>
       <input shrink-1 j-input-text type="text" placeholder={placeholder} max-w="[calc(40%-8px)]"
