@@ -15,18 +15,6 @@ axios.interceptors.request.use((config) => {
   return config
 })
 
-// 封装 axios
-export const ajax = {
-  get: <T>(path: string, config?: AxiosRequestConfig<any>) => {
-    return axios.get<T>(path, config)
-  },
-  post: <T>(path: string, data: JSONValue) => {
-    return axios.post<T>(path, data)
-  },
-  patch: () => { },
-  delete: () => { },
-}
-
 type Options = {
   showLoading?: boolean
 }

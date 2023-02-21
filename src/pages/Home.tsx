@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { Navigate, useNavigate } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import p from '../assets/images/pig.svg'
-import { ajax } from '../lib/ajax'
+import { useAjax } from '../lib/ajax'
 import { useTitle } from '../hooks/useTitle'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
@@ -20,13 +20,14 @@ export const Home: React.FC<Props> = (props) => {
     }
     throw error
   }
+  const { get } = useAjax()
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path => {
     // 如果返回 403 就让用户先登录
-    const response = await ajax.get<Resource<User>>(path).catch(onHttpError)
+    const response = await get<Resource<User>>(path).catch(onHttpError)
     return response.data.resource
   })
   const { data: itemsData, error: itemsError } = useSWR(meData ? '/api/v1/items' : null, async path =>
-    (await ajax.get<Resources<Item>>(path)).data
+    (await get<Resources<Item>>(path)).data
   )
 
   const isLoadingMe = !meData && !meError
