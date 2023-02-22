@@ -42,6 +42,6 @@ export const itemsMock: MockMethod = {
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Item> =>
-    createResponse({ count: 30, perPage: 10, page: parseInt(query.page) || 1 })
+    createResponse({ count: 0, perPage: 10, page: parseInt(query.page) || 1 })
   ,
 }
