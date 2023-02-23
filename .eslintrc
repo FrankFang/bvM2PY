@@ -4,6 +4,7 @@
     "curly": "off",
     "arrow-parens": "off",
     "symbol-description": "off",
+    "new-parens": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/brace-style": "off",
