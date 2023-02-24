@@ -7,6 +7,7 @@ import { TopNav } from '../components/TopNav'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import s from './ItemsNewPage.module.scss'
 import { DateAndAmount } from './ItemsNewPage/DateAndAmount'
+import { ItemDate } from './ItemsNewPage/ItemDate'
 import { Tags } from './ItemsNewPage/Tags'
 
 export const ItemsNewPage: React.FC = () => {
@@ -32,7 +33,7 @@ export const ItemsNewPage: React.FC = () => {
         value={data.kind!}
         onChange={(tabItem) => { setData({ kind: tabItem }) }} />
       <div text-28px>{JSON.stringify(data)}</div>
-      <DateAndAmount className="grow-0 shrink-0" />
+      <DateAndAmount className="grow-0 shrink-0" itemDate={<ItemDate />} />
     </div>
   )
 }
