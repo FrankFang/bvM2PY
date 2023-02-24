@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react'
-import { useState } from 'react'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
 import { Tabs } from '../components/Tabs'
 import { TopNav } from '../components/TopNav'
 import { useCreateItemStore } from '../stores/useCreateItemStore'
 import s from './ItemsNewPage.module.scss'
-import { DateAndAmount } from './ItemsNewPage/DateAndAmount'
+import { ItemAmount } from './ItemsNewPage/ItemAmount'
 import { ItemDate } from './ItemsNewPage/ItemDate'
 import { Tags } from './ItemsNewPage/Tags'
 
@@ -33,7 +32,9 @@ export const ItemsNewPage: React.FC = () => {
         value={data.kind!}
         onChange={(tabItem) => { setData({ kind: tabItem }) }} />
       <div text-28px>{JSON.stringify(data)}</div>
-      <DateAndAmount className="grow-0 shrink-0" itemDate={<ItemDate />} />
+      <ItemAmount className="grow-0 shrink-0" itemDate={
+        <ItemDate value={data.happen_at} onChange={(d) => setData({ happen_at: d })} />
+      } />
     </div>
   )
 }

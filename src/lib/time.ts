@@ -134,4 +134,11 @@ export class Time {
   set ms(v) {
     this.parts = { ms: v }
   }
+  get isoString() {
+    const timezone = Math.round(-this.#date.getTimezoneOffset() / 60)
+    const absolute = Math.abs(timezone)
+    const sign = timezone > 0 ? '+' : '-'
+    const pad = absolute.toString().padStart(2, '0')
+    return `${this.format('yyyy-MM-ddTHH:mm:ss.fff') + sign + pad}:00`
+  }
 }
