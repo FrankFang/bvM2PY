@@ -1,20 +1,21 @@
 import create from 'zustand'
+import { time } from '../lib/time'
 import type { FormError } from '../lib/validate'
 
-type Date = Item
+type Data = Item
 
 type CreateItem = {
-  data: Partial<Date>
-  error: FormError<Date>
-  setData: (data: Partial<Date>) => void
-  setError: (error: Partial<FormError<Date>>) => void
+  data: Partial<Data>
+  error: FormError<Data>
+  setData: (data: Partial<Data>) => void
+  setError: (error: Partial<FormError<Data>>) => void
 }
 export const useCreateItemStore = create<CreateItem>((set, get) => {
   return {
     data: {
       kind: 'expenses',
       tag_ids: [],
-      happen_at: '',
+      happen_at: time().format(),
       amount: 0
     },
     error: {
