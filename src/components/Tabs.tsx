@@ -33,6 +33,9 @@ export const Tabs = <T extends string>(props: Props<T>) => {
       </ol>
       <div grow-1 shrink-1 overflow-auto className={classPrefix ? `${classPrefix}-pane` : ''}>
         {tabItems.filter(item => item.key === value)[0].element}
+        {/* DOM diff 算法 */}
+        {/* 组件名是否一致 Tags => Tags A=>B */}
+        {/* 如果一致就不删旧的组件，而是更新其属性 */}
       </div>
     </div>
   )

@@ -42,6 +42,6 @@ export const tagsMock: MockMethod = {
   method: 'get',
   statusCode: 200,
   response: ({ query }: ResponseParams): Resources<Tag> => {
-    return createResponse({ count: 4, perPage: 50, page: parseInt(query.page) || 1 })
+    return createResponse({ count: 54, perPage: 50, page: parseInt(query.page) || 1 })
   }
 }

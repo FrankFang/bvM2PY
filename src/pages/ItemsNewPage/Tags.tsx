@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import useSWRInfinite from 'swr/infinite'
@@ -13,16 +14,16 @@ const Div = styled.div`
   padding: 16px;
   text-align: center;
 `
-const getKey = (pageIndex: number, prev: Resources<Item>) => {
-  if (prev) {
-    const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
-    const count = prev.pager.count
-    if (sendCount >= count) { return null }
-  }
-  return `/api/v1/tags?page=${pageIndex + 1}`
-}
 export const Tags: React.FC<Props> = (props) => {
   const { kind } = props
+  const getKey = (pageIndex: number, prev: Resources<Item>) => {
+    if (prev) {
+      const sendCount = (prev.pager.page - 1) * prev.pager.per_page + prev.resources.length
+      const count = prev.pager.count
+      if (sendCount >= count) { return null }
+    }
+    return `/api/v1/tags?page=${pageIndex + 1}&kind=${kind}`
+  }
 
   const { get } = useAjax({ showLoading: true, handleError: true })
   const { data, error, size, setSize } = useSWRInfinite(

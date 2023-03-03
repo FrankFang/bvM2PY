@@ -12,9 +12,9 @@ import { ItemDate } from './ItemsNewPage/ItemDate'
 import { Tags } from './ItemsNewPage/Tags'
 
 export const ItemsNewPage: React.FC = () => {
-  const { data, error, setData, setError } = useCreateItemStore()
+  const { data, setData, setError } = useCreateItemStore()
   const tabItems: { key: Item['kind']; text: string; element?: ReactNode }[] = [
-    { // JetBrains Mono
+    {
       key: 'expenses', text: '支出', element:
         <Tags kind="expenses" value={data.tag_ids} onChange={(ids) => setData({ tag_ids: ids })} />
     },
@@ -22,7 +22,7 @@ export const ItemsNewPage: React.FC = () => {
       key: 'income', text: '收入', element:
         <Tags kind="income" value={data.tag_ids} onChange={(ids) => setData({ tag_ids: ids })} />
     }
-  ]
+  ] // React DOM diff 的优化
   const { post } = useAjax({ showLoading: true, handleError: true })
   const onSubmit = async () => {
     const error = validate(data, [
