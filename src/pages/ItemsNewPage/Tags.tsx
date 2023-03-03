@@ -33,6 +33,9 @@ export const Tags: React.FC<Props> = (props) => {
   const isLoadingInitialData = !data && !error
   const isLoadingMore = data?.[size - 1] === undefined && !error
   const isLoading = isLoadingInitialData || isLoadingMore
+  const onLoadMore = () => {
+    setSize(size + 1)
+  }
   if (!data) {
     return <div>空</div>
   } else {
