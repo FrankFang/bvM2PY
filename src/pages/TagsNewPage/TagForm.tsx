@@ -2,6 +2,7 @@ import type { AxiosError } from 'axios'
 import type { FormEventHandler } from 'react'
 import { useEffect } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import useSWR from 'swr'
 import { Input } from '../../components/Input'
 import { useAjax } from '../../lib/ajax'
 import type { FormError } from '../../lib/validate'
@@ -16,6 +17,7 @@ export const TagForm: React.FC<Props> = (props) => {
   const { data, error, setData, setError } = useCreateTagStore()
   const [searchParams] = useSearchParams()
   const kind = searchParams.get('kind') ?? ''
+  const { post, patch, get } = useAjax({ showLoading: true, handleError: true })
   useEffect(() => {
     if (type !== 'create') { return }
     if (!kind) {
@@ -27,14 +29,15 @@ export const TagForm: React.FC<Props> = (props) => {
     setData({ kind })
   }, [searchParams])
   const params = useParams()
-  const { post } = useAjax({ showLoading: true, handleError: true })
+  const id = params.id
+  const { data: tag } = useSWR(id ? `/api/v1/tags/${id}` : null, async (path) =>
+    (await get<Resource<Tag>>(path)).data.resource
+  )
   useEffect(() => {
-    if (type !== 'edit') { return }
-    const id = params.id
-    if (!id) { throw new Error('id 必填') }
-    // 发起 AJAX 请求获取 tag 数据
-    // 然后 setData
-  }, [])
+    if (tag) {
+      setData(tag)
+    }
+  }, [tag])
 
   const onSubmitError = (error: AxiosError<{ errors: FormError<typeof data> }>) => {
     if (error.response) {
@@ -57,7 +60,10 @@ export const TagForm: React.FC<Props> = (props) => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      const response = await post<Resource<Tag>>('/api/v1/tags', data).catch(onSubmitError)
+      const promise = type === 'create'
+        ? post<Resource<Tag>>('/api/v1/tags', data)
+        : patch<Resource<Tag>>(`/api/v1/tags/${id}`, data)
+      const response = await promise.catch(onSubmitError)
       setData(response.data.resource)
       nav(`/items/new?kind=${encodeURIComponent(kind)}`)
     }
