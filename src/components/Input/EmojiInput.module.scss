@@ -1,4 +1,8 @@
 .wrapper {
+  .selectedTab {
+    color: var(--color-blue);
+    font-weight: bold;
+  }
   .selected{
     border-color: var(--color-blue);
   }
