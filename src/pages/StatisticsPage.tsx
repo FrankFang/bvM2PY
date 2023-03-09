@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import * as echarts from 'echarts'
+import { useState } from 'react'
 import useSWR from 'swr'
 import { Gradient } from '../components/Gradient'
 import { Icon } from '../components/Icon'
@@ -11,6 +10,7 @@ import { PieChart } from '../components/PieChart'
 import { RankChart } from '../components/RankChart'
 import { Input } from '../components/Input'
 import { useAjax } from '../lib/ajax'
+import type { Time } from '../lib/time'
 import { time } from '../lib/time'
 
 type Groups = { happen_at: string; amount: number }[]
@@ -20,23 +20,23 @@ export const StatisticsPage: React.FC = () => {
   const [kind, setKind] = useState('expenses')
   const { get } = useAjax({ showLoading: false, handleError: true })
 
-  const generateStartEndAndDefaultItems = () => {
-    const defaultItems: { x: string; y: number }[] = []
+  const generateStartEnd = () => {
     if (timeRange === 'thisMonth') {
-      const startTime = time().firstDayOfMonth
-      const start = startTime.format(format)
-      const endTime = time().lastDayOfMonth.add(1, 'day')
-      const end = endTime.format(format)
-      for (let i = 0; i < startTime.dayCountOfMonth; i++) {
-        const x = startTime.clone.add(i, 'day').format(format)
-        defaultItems.push({ x, y: 0 })
-      }
-      return { start, end, defaultItems }
+      const start = time().firstDayOfMonth
+      const end = time().lastDayOfMonth.add(1, 'day')
+      return { start, end }
     } else {
-      return { start: '', end: '', defaultItems }
+      return { start: time(), end: time() }
     }
   }
-  const { start, end, defaultItems } = generateStartEndAndDefaultItems()
+  const generateDefaultItems = (time: Time) => {
+    return Array.from({ length: start.dayCountOfMonth }).map((_, i) => {
+      const x = start.clone.add(i, 'day').format(format)
+      return { x, y: 0 }
+    })
+  }
+  const { start, end } = generateStartEnd()
+  const defaultItems = generateDefaultItems(start)
   const { data: items } = useSWR(`/api/v1/items/summary?happened_after=${start}&happened_before=${end}&kind=${kind}&group_by=happen_at`,
     async (path) =>
       (await get<{ groups: Groups; total: number }>(path)).data.groups
@@ -78,7 +78,6 @@ export const StatisticsPage: React.FC = () => {
           ]} value={kind} onChange={value => setKind(value)} disableError />
         </div>
       </div>
-      <div>{timeRange}</div>
       <LineChart className="h-120px" items={normalizedItems} />
       <PieChart className="h-260px m-t-16px" items={items2} />
       <RankChart className="m-t-8px" items={items3} />
