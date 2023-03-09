@@ -52,11 +52,6 @@ export const StatisticsPage: React.FC = () => {
         .map(({ tag_id, tag, amount }) =>
           ({ name: tag.name, value: (amount / 100).toFixed(2), sign: tag.sign }))
   )
-  const items3 = [
-    { tag: { name: '吃饭', sign: '😨' }, amount: 10000 },
-    { tag: { name: '打车', sign: '🥱' }, amount: 20000 },
-    { tag: { name: '买皮肤', sign: '💖' }, amount: 68800 },
-  ].map(item => ({ name: item.tag.name, value: item.amount, sign: item.tag.sign }))
   return (
     <div>
       <Gradient>
