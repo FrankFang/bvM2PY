@@ -21,6 +21,10 @@ export class Time {
   constructor(p?: number | string | Date) {
     this.#date = p ? new Date(p) : new Date()
   }
+  set(parts: Partial<Parts>) {
+    this.parts = parts
+    return this
+  }
   get lastDayOfMonth() {
     return new Time(new Date(this.year, this.month - 1 + 1, 0))
   }
