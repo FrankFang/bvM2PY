@@ -17,6 +17,7 @@ export const time = (p?: number | string | Date) => {
 }
 
 export class Time {
+  static DAY = 24 * 60 * 60 * 1000
   #date: Date
   constructor(p?: number | string | Date) {
     this.#date = p ? new Date(p) : new Date()
