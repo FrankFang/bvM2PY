@@ -27,7 +27,11 @@ const getKey = ({ start, end, kind, group_by }: GetKeyParams) => {
   return `/api/v1/items/summary?happened_after=${start.format('yyyy-MM-dd')}&happened_before=${end.format('yyyy-MM-dd')}&kind=${kind}&group_by=${group_by}`
 }
 export const StatisticsPage: React.FC = () => {
-  const [timeRange, setTimeRange] = useState<TimeRange>('thisMonth')
+  const [timeRange, setTimeRange] = useState<TimeRange>({
+    name: 'thisMonth',
+    start: time().firstDayOfMonth,
+    end: time().lastDayOfMonth.add(1, 'day')
+  })
   const [kind, setKind] = useState<Item['kind']>('expenses')
   const { get } = useAjax({ showLoading: false, handleError: true })
 
@@ -62,10 +66,22 @@ export const StatisticsPage: React.FC = () => {
       </Gradient>
       <TimeRangePicker selected={timeRange} onSelect={setTimeRange}
         timeRanges={[
-          { key: 'thisMonth', text: '本月' },
-          { key: 'lastMonth', text: '上月' },
-          { key: 'twoMonthsAgo', text: '两个月前' },
-          { key: 'threeMonthsAgo', text: '三个月前' },
+          {
+            text: '本月',
+            key: { name: 'thisMonth', start: time().firstDayOfMonth, end: time().lastDayOfMonth.add(1, 'day') },
+          },
+          {
+            text: '上月',
+            key: { name: 'lastMonth', start: time().add(-1, 'month').firstDayOfMonth, end: time().add(-1, 'month').lastDayOfMonth.add(1, 'day') },
+          },
+          {
+            text: '两个月前',
+            key: { name: 'twoMonthsAgo', start: time().add(-2, 'month').firstDayOfMonth, end: time().add(-2, 'month').lastDayOfMonth.add(1, 'day') },
+          },
+          {
+            text: '三个月前',
+            key: { name: 'threeMonthsAgo', start: time().add(-3, 'month').firstDayOfMonth, end: time().add(-3, 'month').lastDayOfMonth.add(1, 'day') },
+          },
         ]} />
       <div flex p-16px items-center gap-x-16px>
         <span grow-0 shrink-0>类型</span>

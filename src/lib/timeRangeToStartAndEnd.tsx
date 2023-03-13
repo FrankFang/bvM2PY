@@ -2,7 +2,7 @@ import type { TimeRange } from '../components/TimeRangePicker'
 import type { Time } from './time'
 import { time } from './time'
 
-const timeRangeMap: { [k in TimeRange]: number } = {
+const timeRangeMap: { [k in TimeRange['name']]: number } = {
   thisYear: 0,
   custom: 0,
   thisMonth: 0,
@@ -12,12 +12,12 @@ const timeRangeMap: { [k in TimeRange]: number } = {
 }
 export const timeRangeToStartAndEnd = (timeRange: TimeRange) => {
   let selected: Time, start: Time, end: Time
-  switch (timeRange) {
+  switch (timeRange.name) {
     case 'thisMonth':
     case 'lastMonth':
     case 'twoMonthsAgo':
     case 'threeMonthsAgo':
-      selected = time().add(timeRangeMap[timeRange], 'month')
+      selected = time().add(timeRangeMap[timeRange.name], 'month')
       start = selected.firstDayOfMonth
       end = start.lastDayOfMonth.add(1, 'day')
       return { start, end }
