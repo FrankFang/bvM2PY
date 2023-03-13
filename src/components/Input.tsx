@@ -19,7 +19,7 @@ type Props = {
     | { type: 'select'; options: { value: string; text: string }[] }
   )
 export const Input: React.FC<Props> = (props) => {
-  const { label, placeholder, type, value, onChange: _onChange, error, disableError, className } = props
+  const { label, placeholder, value, onChange: _onChange, error, disableError, className } = props
   const onChange = (e: string | ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (typeof e === 'string') {
       _onChange?.(e)
