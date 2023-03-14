@@ -40,7 +40,7 @@ export const ItemAmount: React.FC<Props> = (props) => {
   return (
     <>
       <div className={className}>
-        <div flex p-t-15px p-b-16px px-16px border-t-1px border-t="#ddd" gap-x-8px items-center>
+        <div flex p-t-15px p-b-16px px-16px border-t-1px b-t-solid border-t="#ddd" gap-x-8px items-center>
           {props.itemDate}
           <code grow-1 shrink-1 text-right color="#53A867">{output}</code>
         </div>
