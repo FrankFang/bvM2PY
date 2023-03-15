@@ -3,23 +3,19 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useLoadingStore } from '../stores/useLoadingStore'
 
-let hasSetup = false
-
-export const setup = () => {
-  if (hasSetup) { return }
-  hasSetup = true
-  // 静态配置项直接用 defaults 配置
-  axios.defaults.baseURL = isDev ? '/' : 'http://121.196.236.94:8080/'
-  axios.defaults.headers.post['Content-Type'] = 'application/json'
-  axios.defaults.timeout = 10000
-  // 动态配置项用拦截器来配置
-  axios.interceptors.request.use((config) => {
-    const jwt = localStorage.getItem('jwt') || ''
-    config.headers = config.headers || {}
-    if (jwt) { config.headers.Authorization = `Bearer ${jwt}` }
-    return config
-  })
-}
+export const ajax = axios.create({
+  baseURL: isDev ? '/' : 'http://121.196.236.94:8080/',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  timeout: 10000
+})
+ajax.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem('jwt') || ''
+  config.headers = config.headers || {}
+  if (jwt) { config.headers.Authorization = `Bearer ${jwt}` }
+  return config
+})
 
 type Options = {
   showLoading?: boolean
@@ -51,31 +47,30 @@ export const useAjax = (options?: Options) => {
     }
     throw error
   }
-  const ajax = {
+  return {
     get: <T>(path: string, config?: AxiosRequestConfig<any>) => {
       if (showLoading) { setVisible(true) }
-      return axios.get<T>(path, config).catch(onError).finally(() => {
+      return ajax.get<T>(path, config).catch(onError).finally(() => {
         if (showLoading) { setVisible(false) }
       })
     },
     post: <T>(path: string, data: JSONValue) => {
       if (showLoading) { setVisible(true) }
-      return axios.post<T>(path, data).catch(onError).finally(() => {
+      return ajax.post<T>(path, data).catch(onError).finally(() => {
         if (showLoading) { setVisible(false) }
       })
     },
     patch: <T>(path: string, data: JSONValue) => {
       if (showLoading) { setVisible(true) }
-      return axios.patch<T>(path, data).catch(onError).finally(() => {
+      return ajax.patch<T>(path, data).catch(onError).finally(() => {
         if (showLoading) { setVisible(false) }
       })
     },
     destroy: <T>(path: string) => {
       if (showLoading) { setVisible(true) }
-      return axios.delete<T>(path).catch(onError).finally(() => {
+      return ajax.delete<T>(path).catch(onError).finally(() => {
         if (showLoading) { setVisible(false) }
       })
     },
   }
-  return ajax
 }
