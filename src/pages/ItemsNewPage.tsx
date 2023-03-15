@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { BackIcon } from '../components/BackIcon'
 import { Gradient } from '../components/Gradient'
 import { Tabs } from '../components/Tabs'
@@ -24,6 +25,7 @@ export const ItemsNewPage: React.FC = () => {
     }
   ] // React DOM diff 的优化
   const { post } = useAjax({ showLoading: true, handleError: true })
+  const nav = useNavigate()
   const onSubmit = async () => {
     const error = validate(data, [
       { key: 'kind', type: 'required', message: '请选择类型：收入或支出' },
@@ -37,8 +39,8 @@ export const ItemsNewPage: React.FC = () => {
       const message = Object.values(error).flat().join('\n')
       window.alert(message)
     } else {
-      const response = await post<Resource<Item>>('/api/v1/items', data)
-      // TODO: 这里好像还没做完？
+      await post<Resource<Item>>('/api/v1/items', data)
+      nav('/items')
     }
   }
   return (

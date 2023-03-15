@@ -1,5 +1,5 @@
 interface Data {
-  [k: string]: JSONValue
+  [k: string | number]: JSONValue
 }
 type Rule<T> = {
   key: keyof T

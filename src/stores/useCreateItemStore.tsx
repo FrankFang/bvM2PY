@@ -15,7 +15,7 @@ export const useCreateItemStore = create<CreateItem>((set, get) => {
     data: {
       kind: 'expenses',
       tag_ids: [],
-      happen_at: time().format(),
+      happen_at: time().isoString,
       amount: 0
     },
     error: {
