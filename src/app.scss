@@ -28,3 +28,16 @@ html{
 }
 
 ::-webkit-scrollbar { display: none; }
+
+@media (min-width:500px) {
+  body {
+    background: #000;
+  }
+  #root{
+    background: white;
+    min-height: 100vh;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
