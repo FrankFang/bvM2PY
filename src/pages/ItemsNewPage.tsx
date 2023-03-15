@@ -38,7 +38,7 @@ export const ItemsNewPage: React.FC = () => {
       window.alert(message)
     } else {
       const response = await post<Resource<Item>>('/api/v1/items', data)
-      console.log(response.data.resource)
+      // TODO: 这里好像还没做完？
     }
   }
   return (

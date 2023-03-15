@@ -39,9 +39,11 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Outlet />,
     errorElement: <ErrorPage />,
-    loader: async () =>
-      preload('/api/v1/me', (path) => axios.get<Resource<User>>(path)
-        .then(r => r.data, e => { throw new ErrorUnauthorized })),
+    loader: async () => {
+      return await axios.get<Resource<User>>('/api/v1/me').catch(e => {
+        if (e.response?.status === 401) { throw new ErrorUnauthorized }
+      })
+    },
     children: [
       {
         path: '/items',
@@ -52,14 +54,12 @@ export const router = createBrowserRouter([
             if (error.response?.status === 401) { throw new ErrorUnauthorized() }
             throw error
           }
-          return preload('/api/v1/items?page=1', async (path) => {
-            const response = await axios.get<Resources<Item>>(path).catch(onError)
-            if (response.data.resources.length > 0) {
-              return response.data
-            } else {
-              throw new ErrorEmptyData()
-            }
-          })
+          const response = await axios.get<Resources<Item>>('/api/v1/items?page=1').catch(onError)
+          if (response.data.resources.length > 0) {
+            return response.data
+          } else {
+            throw new ErrorEmptyData()
+          }
         }
       },
       {

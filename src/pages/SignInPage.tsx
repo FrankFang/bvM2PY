@@ -29,14 +29,10 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      // 发送请求
       const response = await post<{ jwt: string }>('http://121.196.236.94:8080/api/v1/session', data)
         .catch(onSubmitError)
-      // 获取 JWT
       const jwt = response.data.jwt
-      // JWT 放入 LS
       localStorage.setItem('jwt', jwt)
-      // 回到首页
       const from = search.get('from') || '/items'
       nav(from)
     }
@@ -69,7 +65,7 @@ export const SignInPage: React.FC = () => {
           onChange={value => setData({ code: value })}
           error={error.code?.[0]} request={sendSmsCode} />
         <div mt-100px>
-          <button j-btn type="submit" >登录</button>
+          <button j-btn type="submit">登录</button>
         </div>
       </form>
     </div>

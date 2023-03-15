@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import p from '../assets/images/pig.svg'
 import { useAjax } from '../lib/ajax'
@@ -37,7 +37,9 @@ export const Home: React.FC<Props> = (props) => {
       <img mt-20vh mb-20vh width="128" height="130" src={p} />
     </div>
     <div px-16px>
-      <button j-btn>开始记账</button>
+      <Link to="/items/new">
+        <button j-btn>开始记账</button>
+      </Link>
     </div>
     <AddItemFloatButton />
   </div >

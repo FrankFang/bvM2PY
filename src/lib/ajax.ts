@@ -3,18 +3,23 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useLoadingStore } from '../stores/useLoadingStore'
 
-// 静态配置项直接用 defaults 配置
-axios.defaults.baseURL = isDev ? '/' : 'http://121.196.236.94:8080/'
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.timeout = 10000
+let hasSetup = false
 
-// 动态配置项用拦截器来配置
-axios.interceptors.request.use((config) => {
-  const jwt = localStorage.getItem('jwt') || ''
-  config.headers = config.headers || {}
-  if (jwt) { config.headers.Authorization = `Bearer ${jwt}` }
-  return config
-})
+export const setup = () => {
+  if (hasSetup) { return }
+  hasSetup = true
+  // 静态配置项直接用 defaults 配置
+  axios.defaults.baseURL = isDev ? '/' : 'http://121.196.236.94:8080/'
+  axios.defaults.headers.post['Content-Type'] = 'application/json'
+  axios.defaults.timeout = 10000
+  // 动态配置项用拦截器来配置
+  axios.interceptors.request.use((config) => {
+    const jwt = localStorage.getItem('jwt') || ''
+    config.headers = config.headers || {}
+    if (jwt) { config.headers.Authorization = `Bearer ${jwt}` }
+    return config
+  })
+}
 
 type Options = {
   showLoading?: boolean
