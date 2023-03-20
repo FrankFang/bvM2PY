@@ -1,16 +1,12 @@
 import useSWR from 'swr'
 import { Link, Navigate } from 'react-router-dom'
-import p from '../assets/images/pig.svg'
 import { useAjax } from '../lib/ajax'
-import { useTitle } from '../hooks/useTitle'
 import { Loading } from '../components/Loading'
 import { AddItemFloatButton } from '../components/AddItemFloatButton'
 import { Icon } from '../components/Icon'
 interface Props {
-  title?: string
 }
 export const Home: React.FC<Props> = (props) => {
-  useTitle(props.title)
   const { get } = useAjax({ showLoading: true, handleError: false })
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path => {
     // 如果返回 403 就让用户先登录
