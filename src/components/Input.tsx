@@ -3,11 +3,11 @@ import { DateInput } from './Input/DateInput'
 import { EmojiInput } from './Input/EmojiInput'
 import { SmsCodeInput } from './Input/SmsCodeInput'
 
-type Props = {
+type Props<T> = {
   label?: string | ReactNode
   placeholder?: string
-  value?: string
-  onChange?: (value: string) => void
+  value?: T
+  onChange?: (value: T) => void
   error?: string
   disableError?: boolean
   className?: string
@@ -18,14 +18,11 @@ type Props = {
     | { type: 'sms_code'; request: () => Promise<unknown> }
     | { type: 'select'; options: { value: string; text: string }[] }
   )
-export const Input: React.FC<Props> = (props) => {
+export const Input = <T extends string>(props: Props<T>) => {
   const { label, placeholder, value, onChange: _onChange, error, disableError, className } = props
   const onChange = (e: string | ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    if (typeof e === 'string') {
-      _onChange?.(e)
-    } else {
-      _onChange?.(e.target.value)
-    }
+    const value = typeof e === 'string' ? e : e.target.value
+    _onChange?.(value as T)
   }
   const common = { value, onChange, placeholder }
   const renderInput = () => {
