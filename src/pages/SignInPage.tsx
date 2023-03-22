@@ -29,7 +29,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (!hasError(newError)) {
-      const response = await post<{ jwt: string }>('http://121.196.236.94:8080/api/v1/session', data)
+      const response = await post<{ jwt: string }>('/api/v1/session', data)
         .catch(onSubmitError)
       const jwt = response.data.jwt
       localStorage.setItem('jwt', jwt)
@@ -43,7 +43,7 @@ export const SignInPage: React.FC = () => {
     ])
     setError(newError)
     if (hasError(newError)) { throw new Error('表单出错') }
-    const response = await post('http://121.196.236.94:8080/api/v1/validation_codes', {
+    const response = await post('/api/v1/validation_codes', {
       email: data.email
     })
     return response
