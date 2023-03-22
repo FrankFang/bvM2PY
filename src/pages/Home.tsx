@@ -21,7 +21,7 @@ export const Home: React.FC<Props> = (props) => {
   const isLoadingItems = meData && !itemsData && !itemsError
 
   if (isLoadingMe || isLoadingItems) {
-    return <Loading className="h-screen" />
+    return <div text-center p-16px>加载中……</div>
   }
 
   if (itemsData?.resources[0]) {
@@ -40,3 +40,5 @@ export const Home: React.FC<Props> = (props) => {
     <AddItemFloatButton />
   </div >
 }
+
+export default Home
