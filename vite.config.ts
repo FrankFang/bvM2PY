@@ -8,6 +8,20 @@ import { svgsprites } from './vite_plugins/svgsprites'
 export default defineConfig((env) => {
   const { command } = env
   return {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id: any) {
+            if (id.includes('echarts')) {
+              return 'echarts'
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor'
+            }
+          }
+        }
+      }
+    },
     server: {
       proxy: {
         '/api/': {
