@@ -1,6 +1,7 @@
 import { Outlet, createHashRouter } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import { Suspense, lazy } from 'react'
+import loadable from '@loadable/component'
 import { Root } from '../components/Root'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
 import { ItemsNewPage } from '../pages/ItemsNewPage'
@@ -20,7 +21,9 @@ import { ComingSoonPage } from '../pages/ComingSoonPage'
 import { Loading } from '../components/Loading'
 import Home from '../pages/Home'
 
-const StatisticsPage = lazy(() => import('../pages/StatisticsPage'))
+const StatisticsPage = loadable(() => import('../pages/StatisticsPage'), {
+  fallback: <Loading />
+})
 
 export const router = createHashRouter([
   { path: '/', element: <Root />, },
@@ -72,7 +75,7 @@ export const router = createHashRouter([
       },
       { path: '/tags/new', element: <TagsNewPage /> },
       { path: '/tags/:id', element: <TagsEditPage /> },
-      { path: '/statistics', element: <Suspense fallback={<Loading />}><StatisticsPage /></Suspense> },
+      { path: '/statistics', element: <StatisticsPage /> },
       { path: '/export', element: <ComingSoonPage /> },
       { path: '/noty', element: <ComingSoonPage /> },
     ]
