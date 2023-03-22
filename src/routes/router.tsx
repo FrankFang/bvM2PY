@@ -22,7 +22,7 @@ import { Loading } from '../components/Loading'
 import Home from '../pages/Home'
 
 const StatisticsPage = loadable(() => import('../pages/StatisticsPage'), {
-  fallback: <Loading />
+  fallback: <Loading className='h-screen' />
 })
 
 export const router = createHashRouter([
