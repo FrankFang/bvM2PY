@@ -1,8 +1,7 @@
 import { Outlet, createHashRouter } from 'react-router-dom'
 import type { AxiosError } from 'axios'
-import { Suspense, lazy } from 'react'
 import loadable from '@loadable/component'
-import { Root } from '../components/Root'
+import { RootPage } from '../pages/RootPage'
 import { WelcomeLayout } from '../layouts/WelcomeLayout'
 import { ItemsNewPage } from '../pages/ItemsNewPage'
 import { ItemsPage } from '../pages/ItemsPage'
@@ -26,7 +25,7 @@ const StatisticsPage = loadable(() => import('../pages/StatisticsPage'), {
 })
 
 export const router = createHashRouter([
-  { path: '/', element: <Root />, },
+  { path: '/', element: <RootPage />, },
   { path: '/home', element: <Home /> },
   {
     path: '/welcome',
